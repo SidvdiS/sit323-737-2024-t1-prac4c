@@ -2,3 +2,4 @@
 {"level":"info","message":"Parameters 10 and 2 received for exponentiation","service":"calculate-service"}
 {"level":"info","message":"Parameter 25 received for square root","service":"calculate-service"}
 {"level":"error","message":"Error: Invalid parameters or division by zero","service":"calculate-service"}
+{"level":"info","message":"Modulo operation performed with dividend: 10 and divisor: 3","service":"calculate-service"}
