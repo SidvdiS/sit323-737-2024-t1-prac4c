@@ -71,6 +71,9 @@ app.get("/Calculator", function (req, res) {
   <p>For Subtraction</p><a href="/sub?n1=10&n2=20">Click here</a>
   <p>For Multiplication</p><a href="/multiply?n1=10&n2=20">Click here</a>
   <p>For Division</p><a href="/division?n1=10&n2=20">Click here</a>
+  <p>For exponention</p><a href="/exp?n1=10&n2=2">Click here</a>
+  <p>For square root</p><a href="/sqrt?n=25">Click here</a>
+  <p>For modulo</p><a href="/modulo?n1=10&n2=3">Click here</a>
  `);
 });
 
@@ -86,6 +89,19 @@ const mul = (n1, n2) => {
 const div = (n1, n2) => {
   return n1 / n2;
 };
+
+const exp = (n1, n2) => {
+  return Math.pow(n1, n2);
+};
+
+const squareRoot = (n) => {
+  return Math.sqrt(n);
+};
+
+const modulo = (n1, n2) => {
+  return n1 % n2;
+};
+
 app.get("/add", (req, res) => {
   try {
     const n1 = parseFloat(req.query.n1);
@@ -190,6 +206,55 @@ app.get("/division", (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ statuscocde: 500, msg: error.toString() });
+  }
+});
+
+app.get("/exp", (req, res) => {
+  try {
+    const n1 = parseFloat(req.query.n1);
+    const n2 = parseFloat(req.query.n2);
+    if (isNaN(n1) || isNaN(n2)) {
+      throw new Error("Invalid input");
+    }
+    logger.info(`Parameters ${n1} and ${n2} received for exponentiation`);
+    const result = exp(n1, n2);
+    res.status(200).json({ statusCode: 200, data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ statusCode: 500, msg: error.toString() });
+  }
+});
+
+app.get("/sqrt", (req, res) => {
+  try {
+    const n = parseFloat(req.query.n);
+    if (isNaN(n)) {
+      throw new Error("Invalid input");
+    }
+    logger.info(`Parameter ${n} received for square root`);
+    const result = squareRoot(n);
+    res.status(200).json({ statusCode: 200, data: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ statusCode: 500, msg: error.toString() });
+  }
+});
+
+app.get("/modulo", (req, res) => {
+  try {
+    const n1 = parseFloat(req.query.n1);
+    const n2 = parseFloat(req.query.n2);
+    if (isNaN(n1) || isNaN(n2) || n2 === 0) {
+      throw new Error("Invalid parameters or division by zero");
+    }
+    const result = modulo(n1, n2);
+    logger.info(
+      `Modulo operation performed with dividend: ${n1} and divisor: ${n2}`
+    );
+    res.status(200).json({ statusCode: 200, data: result });
+  } catch (error) {
+    logger.error(error.toString());
+    res.status(500).json({ statusCode: 500, msg: error.toString() });
   }
 });
 
